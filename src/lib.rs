@@ -43,7 +43,7 @@ pub struct Args {
     #[clap(subcommand)]
     pub command: ClapCommand,
 
-    /// the interval to update in hours, set to 0 to update only onece
+    /// the interval to update in hours, set to 0 to update only once for use in e.g. crontab
     #[clap(short, long, value_parser, default_value_t = 24)]
     interval: u8,
 }

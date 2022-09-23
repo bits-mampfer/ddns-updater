@@ -8,8 +8,9 @@ fn main() {
         ClapCommand::Add { domain, key } => {}
         ClapCommand::Remove { domain } => {}
     }
+
+    let (myip4, myip6) = lib::get_my_ips();
     //if args.command == "add" {};
-    // let (myip4, myip6) = lib::get_my_ips();
     // println!("{:?} , {:?}", myip4, myip6);
     // let updates = vec![
     //     ("www.bits-mampfer.eu", "5puht192xu1b6-l9"),
