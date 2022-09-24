@@ -1,6 +1,5 @@
 use clap::{Parser, Subcommand};
 use serde::{Deserialize, Serialize};
-use std::fs::{read_to_string, write};
 use std::net::IpAddr;
 use std::process::Command;
 
@@ -26,7 +25,7 @@ pub fn get_my_ips() -> (IpAddr, IpAddr) {
     return (myipv4, myipv6);
 }
 
-pub fn send_message(domain: String, key: String, addressev4: IpAddr, addressev6: IpAddr) {
+pub fn send_message(domain: &str, key: &str, addressev4: IpAddr, addressev6: IpAddr) {
     let send = Command::new("curl")
         .arg(format!(
             "https://njal.la/update/?h={domain}&k={key}&a={addressev4}&aaaa={addressev6}"
@@ -41,24 +40,6 @@ pub fn send_message(domain: String, key: String, addressev4: IpAddr, addressev6:
 pub struct Records {
     pub domain: String,
     pub key: String,
-}
-
-pub fn add_record(domain: String, key: String) {
-    let mut records = load_records();
-    let new_record = Records { domain, key };
-    records.push(new_record);
-
-    //serde serialization
-    let serialized = serde_json::to_string(&records).expect("couldnt serialize");
-    write("~/.config/ddns-updater", serialized).expect("couldnt write to file");
-}
-
-pub fn load_records() -> Vec<Records> {
-    //serde deserializarion
-    let records_string = read_to_string("~/.config/ddns-updater").expect("couldnt deserialize");
-    let records: Vec<Records> =
-        serde_json::from_str(&records_string).expect("deserialization error");
-    return records;
 }
 
 #[derive(Parser)]
