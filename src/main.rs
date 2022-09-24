@@ -29,7 +29,7 @@ fn run(interval: u8) {
 
     loop {
         for record in records {
-            send_message(record.domain, record.key, myip4, myip6);
+            lib::send_message(&record.domain, &record.key, myip4, myip6);
         }
         sleep(interval_h);
     }
