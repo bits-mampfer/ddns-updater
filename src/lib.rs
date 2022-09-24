@@ -30,12 +30,18 @@ pub fn send_message(domain: &str, key: &str, addressev4: IpAddr, addressev6: IpA
             "https://njal.la/update/?h={domain}&k={key}&a={addressev4}&aaaa={addressev6}"
         ))
         .output()
-        .expect("error");
+        .expect("error sending message to server");
     let string: String = String::from_utf8(send.stdout).unwrap();
     println!("{:?}", string);
 }
 
-fn _add_to_database(key: &str, value: &str) {}
+pub fn add_record(key: String, value: String) {
+    //serde serialization
+}
+
+fn load_record() -> Vec<(String, String)> {
+    //serde deserializarion
+}
 
 #[derive(Parser)]
 #[clap(author, version, about)]
@@ -45,7 +51,7 @@ pub struct Args {
 
     /// the interval to update in hours, set to 0 to update only once for use in e.g. crontab
     #[clap(short, long, value_parser, default_value_t = 24)]
-    interval: u8,
+    pub interval: u8,
 }
 
 #[derive(Subcommand)]
