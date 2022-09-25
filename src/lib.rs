@@ -36,7 +36,7 @@ pub fn send_message(domain: &str, key: &str, addressev4: IpAddr, addressev6: IpA
     println!("{:?}", string);
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Records {
     pub domain: String,
     pub key: String,
@@ -70,6 +70,5 @@ pub enum ClapCommand {
 
 pub fn clap_initialize() -> Args {
     let args = Args::parse();
-    //added_records
     return args;
 }

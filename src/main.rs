@@ -12,16 +12,6 @@ fn main() {
         ClapCommand::Add { domain, key } => serialization::add_record(domain, Some(key), false),
         ClapCommand::Remove { domain } => serialization::add_record(domain, None, true),
     }
-
-    //if args.command == "add" {};
-    // println!("{:?} , {:?}", myip4, myip6);
-    // let updates = vec![
-    //     ("www.bits-mampfer.eu", "5puht192xu1b6-l9"),
-    //     ("bits-mampfer.eu", "pejhipgnqknt2q-1"),
-    // ];
-    // for update in updates {
-    //     lib::send_message(update.0, update.1, myip4, myip6);
-    // }
 }
 
 fn run(interval: u8) {
@@ -37,3 +27,7 @@ fn run(interval: u8) {
         sleep(interval_h);
     }
 }
+
+//TODO: test the functionality
+// TODO : write unit tests
+// refactor functions
