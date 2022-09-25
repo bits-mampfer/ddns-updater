@@ -1,12 +1,15 @@
-pub mod lib;
+#![feature(ip)]
+pub mod clap;
+pub mod internet;
 pub mod serialization;
-use lib::ClapCommand;
-pub use lib::Records;
+
+use crate::clap::ClapCommand;
+use crate::clap::Records;
 use std::thread::sleep;
 use std::time::Duration;
 
 fn main() {
-    let args = lib::clap_initialize();
+    let args = clap::clap_initialize();
     match args.command {
         ClapCommand::Run => run(args.interval),
         ClapCommand::Add { domain, key } => serialization::add_record(domain, Some(key), false),
@@ -16,18 +19,19 @@ fn main() {
 
 fn run(interval: u8) {
     let records = serialization::load_records();
-    let interval_h: Duration = Duration::from_secs(interval as u64 * 3600);
-    let (myip4, myip6) = lib::get_my_ips();
+    let (myip4, myip6) = internet::get_my_ips();
 
     loop {
         for record in &records {
-            lib::send_message(&record.domain, &record.key, myip4, myip6);
+            internet::send_message(&record.domain, &record.key, myip4, myip6);
         }
         println!("updated records with {myip4} {myip6}");
-        sleep(interval_h);
+        if interval == 0 {
+            break;
+        } else {
+            sleep(Duration::from_secs(interval as u64 * 3600));
+        }
     }
 }
 
-//TODO: test the functionality
 // TODO : write unit tests
-// refactor functions
